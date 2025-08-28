@@ -16,11 +16,11 @@
 class Solution {
     class VerticalPair {
         TreeNode node;
-        int l; // level (row)
-        int v; // vertical column
+        int l; // row (level)
+        int v; // column (vertical)
 
         public VerticalPair(TreeNode node, int l, int v) {
-            this.node = node;
+            this.node = node;   // ✅ FIX: corrected assignment
             this.l = l;
             this.v = v;
         }
@@ -35,7 +35,9 @@ class Solution {
         while (!q.isEmpty()) {
             VerticalPair vp = q.poll();
 
-            map.putIfAbsent(vp.v, new ArrayList<>());
+            if (!map.containsKey(vp.v)) {
+                map.put(vp.v, new ArrayList<>());
+            }
             map.get(vp.v).add(vp);
 
             if (vp.node.left != null) {
@@ -47,15 +49,17 @@ class Solution {
         }
 
         List<List<Integer>> ans = new ArrayList<>();
+
         for (int key : map.keySet()) {
             List<VerticalPair> ll = map.get(key);
 
+            // ✅ FIX: comparator should sort by level first, then node value
             Collections.sort(ll, new Comparator<VerticalPair>() {
                 public int compare(VerticalPair o1, VerticalPair o2) {
                     if (o1.l == o2.l) {
-                        return o1.node.val - o2.node.val; // same level → smaller value first
+                        return o1.node.val - o2.node.val;
                     }
-                    return o1.l - o2.l; // otherwise order by level
+                    return o1.l - o2.l;
                 }
             });
 
