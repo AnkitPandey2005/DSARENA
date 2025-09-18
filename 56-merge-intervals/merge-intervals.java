@@ -4,8 +4,8 @@ class Solution {
             return intervals;
         }
 
-        Arrays.sort(intervals,Comparator.comparingInt(i->i[0]));
-
+        Arrays.sort(intervals,(a,b)->a[0]-b[0]);
+        
         List<int[]> result=new ArrayList<>();
 
         int[] newInterval=intervals[0];
