@@ -1,24 +1,29 @@
 class Solution {
     public int totalFruit(int[] fruits) {
-        Map<Integer, Integer> basket = new HashMap<>();
-        int left = 0;
-        int maxFruits = 0;
-         for (int right = 0; right < fruits.length; right++) {
-        
-            basket.put(fruits[right], basket.getOrDefault(fruits[right], 0) + 1);
-            while (basket.size() > 2) {
-                basket.put(fruits[left], basket.get(fruits[left]) - 1);
+        int maxlen = 0;
+        int lastFruit = -1, secondLastFruit = -1;
+        int currCount = 0, lastFruitStreak = 0;
 
-                if (basket.get(fruits[left]) == 0) {
-                    basket.remove(fruits[left]);
-                }
-
-                left++;
+        for (int fruit : fruits) {
+            if (fruit == lastFruit || fruit == secondLastFruit) {
+                currCount++;
+            } else {
+               
+                currCount = lastFruitStreak + 1;
             }
 
-            maxFruits = Math.max(maxFruits, right - left + 1);
+            
+            if (fruit == lastFruit) {
+                lastFruitStreak++;
+            } else {
+                lastFruitStreak = 1;
+                secondLastFruit = lastFruit;
+                lastFruit = fruit;
+            }
+
+            maxlen = Math.max(maxlen, currCount);
         }
 
-        return maxFruits;
+        return maxlen;
     }
 }
