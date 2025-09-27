@@ -1,26 +1,24 @@
 class Solution {
     public int countPrimes(int n) {
-       if(n<=2){
-        return 0;
-       }   
-       return PrimeSieve(n);
-    }
-    public static int PrimeSieve(int n){
-        int[] ans=new int[n];
-        ans[0]=ans[1]=1;
-        for(int i=2;i*i<=ans.length;i++){
-            if(ans[i]==0){
-                for(int j=2;i*j<ans.length;j++){
-                    ans[i*j]=1;
+        if (n <= 2) return 0;
+
+        boolean[] isPrime = new boolean[n];
+        Arrays.fill(isPrime, true);
+        isPrime[0] = false;
+        isPrime[1] = false;
+
+        for (int i = 2; i * i < n; i++) {
+            if (isPrime[i]) {
+                for (int j = i * i; j < n; j += i) {
+                    isPrime[j] = false;
                 }
             }
         }
-        int c=0;
-        for(int i=2;i<ans.length;i++){
-            if(ans[i]==0){
-                c++;
-            }
+
+        int count = 0;
+        for (int i = 2; i < n; i++) {
+            if (isPrime[i]) count++;
         }
-        return c;
+        return count;
     }
 }
