@@ -1,12 +1,24 @@
 class Solution {
     public int maximum69Number(int num) {
-  char[] digits = String.valueOf(num).toCharArray();  
-        for (int i = 0; i < digits.length; i++) {
-            if (digits[i] == '6') {
-                digits[i] = '9';
-                break; 
+        int placevalue = 0; //at start it wil be at 0
+        int placevaluesix = -1;
+        int temp = num;
+
+        while (temp > 0) {
+            int rem = temp % 10;  
+
+            if (rem == 6) {
+                placevaluesix = placevalue;
             }
+            temp = temp / 10; 
+            placevalue++;
         }
-        return Integer.parseInt(new String(digits));
+
+        if (placevaluesix == -1) {
+            return num;
+        }
+
+        // Add 3 * 10^placevaluesix to replace the leftmost 6 by 9
+        return num + (int)(3 * Math.pow(10, placevaluesix));
     }
 }
