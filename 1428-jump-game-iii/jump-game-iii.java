@@ -2,35 +2,34 @@ import java.util.*;
 
 class Solution {
     public boolean canReach(int[] arr, int start) {
-        if (arr[start] == 0) {
-            return true;
-        }
+        Queue<Integer> q = new LinkedList<>();
+        q.add(start);
 
-        HashSet<Integer> visited = new HashSet<>();
-        visited.add(start);
-        ArrayDeque<Integer> queue = new ArrayDeque<>();
-        queue.offer(start);
+        while (!q.isEmpty()) {
+            int curr = q.poll();
 
-        while (!queue.isEmpty()) {
-            int curr = queue.poll();
-
+            // Reached the target index
             if (arr[curr] == 0) {
                 return true;
             }
 
-            int index = curr - arr[curr];
-
-            if (index >= 0 && !visited.contains(index)) {
-                visited.add(index);
-                queue.offer(index);
+            // Already visited
+            if (arr[curr] < 0) {
+                continue;
             }
 
-            index = curr + arr[curr];
-
-            if (index < arr.length && !visited.contains(index)) {
-                visited.add(index);
-                queue.offer(index);
+            // Try both directions
+            if (curr + arr[curr] < arr.length) {
+                q.add(curr + arr[curr]);
             }
+
+            // Correct boundary check for backward jump
+            if (curr - arr[curr] >= 0) {
+                q.add(curr - arr[curr]);
+            }
+
+            // Mark this element as visited by negating it
+            arr[curr] = -arr[curr];
         }
         return false;
     }
