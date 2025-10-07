@@ -1,34 +1,24 @@
 class Solution {
-    public int calculateMinimumHP(int[][] arr) {
-        
-        int rows = arr.length;
-        int cols = arr[0].length;
+    public int calculateMinimumHP(int[][] dungeon) {
+        int m = dungeon.length;
+        int n = dungeon[0].length;
 
-        int [][] dp = new int[rows][cols];
-        for(int [] ar : dp){
-            Arrays.fill(ar,-1);
+        int[][] t = new int[m][n];
+
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = n - 1; j >= 0; j--) {
+                if (i == m - 1 && j == n - 1) {
+                    // Last cell (destination)
+                    t[i][j] = dungeon[i][j] > 0 ? 1 : Math.abs(dungeon[i][j]) + 1;
+                } else {
+                    int down = (i + 1 >= m) ? (int)1e9 : t[i + 1][j];
+                    int right = (j + 1 >= n) ? (int)1e9 : t[i][j + 1];
+
+                    int result = Math.min(down, right) - dungeon[i][j];
+                    t[i][j] = result > 0 ? result : 1;
+                }
+            }
         }
-
-        return helper(0,0,arr,dp);
-    }
-
-
-    private static int helper(int row,int col,int[][] arr,int[][] dp){
-        if(row == arr.length || col == arr[0].length)return Integer.MAX_VALUE;
-
-        if(dp[row][col] != -1)return dp[row][col];
-        
-        if(row == arr.length-1 && col == arr[0].length-1){
-            return dp[row][col] = Math.max(1,1-arr[row][col]);
-        }
-
-        int right = helper(row,col+1,arr,dp);
-        int down = helper(row+1,col,arr,dp);
-
-        int total = Math.min(right,down) - arr[row][col];
-
-        return dp[row][col] = Math.max(1,total);
-
-
+        return t[0][0]; // Minimum health required to reach (m-1, n-1) from (0,0)
     }
 }
