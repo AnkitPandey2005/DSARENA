@@ -1,6 +1,13 @@
 class Solution {
+     private int[][] dp; 
     public boolean predictTheWinner(int[] nums) {
         int n = nums.length;
+         dp = new int[n][n];
+         for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                dp[i][j] = -1; // Initialize with -1 meaning not computed
+            }
+        }
         int totalSum = 0;
         for (int num : nums) {
             totalSum += num;
@@ -20,9 +27,14 @@ class Solution {
             return nums[i];
         }
 
+        if (dp[i][j] != -1) {
+            return dp[i][j];
+        }
+
         int take_i = nums[i] + Math.min(solve(i + 2, j, nums), solve(i + 1, j - 1, nums));
         int take_j = nums[j] + Math.min(solve(i + 1, j - 1, nums), solve(i, j - 2, nums));
 
-        return Math.max(take_i, take_j);
+        dp[i][j] = Math.max(take_i, take_j);
+        return dp[i][j];
     }
 }
