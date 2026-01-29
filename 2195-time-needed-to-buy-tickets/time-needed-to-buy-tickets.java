@@ -3,16 +3,11 @@ class Solution {
         int n=tickets.length;
         int time=0;
 
-        while(tickets[k]!=0){
-            for(int i=0;i<n;i++){
-                if(tickets[i]!=0){
-                    tickets[i]--;
-                    time++;
-                }
-
-                if(tickets[k]==0){
-                    return time;
-                }
+        for(int i=0;i<n;i++){
+            if(i<=k){
+                time+=Math.min(tickets[k],tickets[i]);
+            }else{
+                time+=Math.min(tickets[k]-1,tickets[i]);
             }
         }
         return time;
