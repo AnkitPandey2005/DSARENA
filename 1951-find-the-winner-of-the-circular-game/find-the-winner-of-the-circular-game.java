@@ -1,21 +1,16 @@
 class Solution {
     public int findTheWinner(int n, int k) {
-        Queue<Integer> q=new LinkedList<>();
+        ArrayList<Integer> arr=new ArrayList<>();
         for(int i=1;i<=n;i++){
-            q.add(i);
+            arr.add(i);
         }
 
-        int c=0;
-        while(q.size()>1){
-            int val=q.poll();
-            c++;
-            if(c!=k){
-                q.add(val);
-            }
-            else{
-                c=0;
-            }
+        int i=0; //game start from 1st friend which stand at index 0
+        while(arr.size()>1){
+            int idx=(i+k-1)%arr.size();
+            arr.remove(idx);
+            i=idx;
         }
-        return q.poll();
+       return arr.get(0);
     }
 }
