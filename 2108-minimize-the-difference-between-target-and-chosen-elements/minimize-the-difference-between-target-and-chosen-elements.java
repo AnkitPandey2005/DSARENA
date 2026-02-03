@@ -1,5 +1,4 @@
 class Solution {
-
     int[][] dp;
     public int minimizeTheDifference(int[][] mat, int target) {
         dp=new int[mat.length][4901];
