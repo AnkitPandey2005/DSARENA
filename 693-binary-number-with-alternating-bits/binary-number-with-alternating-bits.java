@@ -1,14 +1,14 @@
 class Solution {
     public boolean hasAlternatingBits(int n) {
-      String binaryString = Integer.toBinaryString(n);
-    //  System.out.println(binaryString);
-      String s=binaryString;
-      for(int i=1;i<s.length();i++){
-        if(s.charAt(i)==s.charAt(i-1)){
-            return false;
+        int c=n&1; //last digit of binary
+        while(n>0){
+            n=n>>1;
+            int a=n&1;
+            if(c==a){
+                return false;
+            }
+            c=a;
         }
-      }
-      return true;
+        return true;
     }
 }
-
