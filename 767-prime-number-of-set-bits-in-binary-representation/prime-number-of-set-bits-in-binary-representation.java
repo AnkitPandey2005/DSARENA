@@ -3,29 +3,17 @@ class Solution {
         int ans = 0;
 
         for (int i = left; i <= right; i++) {
-            String BinaryString = Integer.toBinaryString(i);
-
-            int cnt = 0;
-            for (int j = 0; j < BinaryString.length(); j++) {
-                if (BinaryString.charAt(j) == '1') {
-                    cnt++;
-                }
-            }
-
-            int cnt1 = 0;
-            for (int k = 1; k * k <= cnt; k++) {
-                if (cnt % k == 0) {
-                    cnt1++;
-                    if ((cnt / k) != k) {
-                        cnt1++;
-                    }
-                }
-            }
-
-            if (cnt1 == 2) {
-                ans++;
-            }
+            int cnt = Integer.bitCount(i);
+            if (isPrime(cnt)) ans++;
         }
+
         return ans;
+    }
+
+    private boolean isPrime(int n) {
+        if (n < 2) return false;
+        for (int i = 2; i * i <= n; i++)
+            if (n % i == 0) return false;
+        return true;
     }
 }
