@@ -4,22 +4,22 @@ class Solution {
     }
     public int cntk(int[] nums,int k){
         HashMap<Integer,Integer> map=new HashMap<>();
-        int i=0;
-        int j=0;
+        int left=0;
+        int right=0;
         int cnt=0;
 
-        while(j<nums.length){
-            map.put(nums[j],map.getOrDefault(nums[j],0)+1);
+        while(right<nums.length){
+            map.put(nums[right],map.getOrDefault(nums[right],0)+1);
 
             while(map.size()>k){
-               map.put(nums[i], map.get(nums[i]) - 1);
-                if(map.get(nums[i])==0){
-                    map.remove(nums[i]);
+               map.put(nums[left], map.get(nums[left]) - 1);
+                if(map.get(nums[left])==0){
+                    map.remove(nums[left]);
                 }
-                 i++;
+                 left++;
             }
-             cnt+=(j-i+1);
-        j++;
+             cnt+=(right-left+1);
+             right++;
       }
       return cnt;
     }
