@@ -1,21 +1,23 @@
 class Solution {
-    public int findContentChildren(int[] g, int[] s) {
-        Arrays.sort(g);
-        Arrays.sort(s);
+    public int findContentChildren(int[] greed, int[] size) {
+        int n = greed.length;
+        int m = size.length;
 
-        int i = 0;
-        int j = 0;
+        Arrays.sort(greed);
+        Arrays.sort(size);
 
-        while (i < g.length && j < s.length) {
-            // If the cookie satisfies the student's greed
-            if (s[j] >= g[i]) {
-                i++;
+        int l = 0; // pointer for cookies
+        int r = 0; // pointer for children
+        int count = 0;
+
+        while (l < m && r < n) {
+            if (size[l] >= greed[r]) {
+                count++;   // child satisfied
+                r++;       // move to next child
             }
-            // Move to next cookie in both cases
-            j++;
+            l++; // move to next cookie
         }
 
-        // Number of students satisfied is equal to studentIndex
-        return i;
+        return count;
     }
 }
