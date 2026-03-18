@@ -1,21 +1,25 @@
 class Solution {
     public int jump(int[] nums) {
-        int N=nums.length;
-        if(N==1)
-        return 0;
-        int farthest=0;
-        int currend=0;
-        int jump=0;
-        for(int i=0;i<N;i++){
-            farthest=Math.max(farthest,i+nums[i]);
-            if(currend==i){
-                currend=farthest;
-                jump++;
+        int n = nums.length;
+
+        int l = 0, r = 0;   // current window
+        int jumps = 0;
+
+        while (r < n - 1) {
+            int farthest = 0;
+
+            // explore current window
+            for (int i = l; i <= r; i++) {
+                farthest = Math.max(farthest, i + nums[i]);
             }
-            if(currend>=N-1){
-                return jump;
-            }
+
+            // move to next window
+            l = r + 1;
+            r = farthest;
+
+            jumps++;
         }
-        return -1;
+
+        return jumps;
     }
 }
